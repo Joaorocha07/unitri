@@ -14,8 +14,6 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const { login } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
-  const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -26,16 +24,16 @@ const LoginForm = () => {
       console.log(JSON.stringify(values, null, 2));
       setSubmitting(false);
     }, 400);
-    
+
     try {
-      const data = await login(userId, password, 'DV');
+      const data = await login(values.userId, values.password, 'DV');
       dispatch(loginSuccess(data));
       console.log('Login bem sucedido!', data);
     } catch (error) {
       dispatch(loginFailure(error));
       console.log('Login mal sucedido!', error);
     }
-  }
+  };
 
   return (
     <Formik
@@ -62,7 +60,6 @@ const LoginForm = () => {
         values,
         errors,
         handleChange,
-        handleSubmit,
         isSubmitting,
       }) => (
         <Grid
@@ -73,7 +70,6 @@ const LoginForm = () => {
           component={Form}
           noValidate
           autoComplete="off"
-          onSubmit={handleSubmit}
           spacing={1}
         >
           <Grid
