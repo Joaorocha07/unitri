@@ -6,10 +6,21 @@ import {
   IconButton,
 } from '@mui/material';
 import { Logout } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.logged);
+
+  if (!isLoggedIn) {
+    navigate('/Login');
+    return null;
+  }
+
   const handleLogout = () => {
     // lógica de logout aqui
+    navigate('/login');
   };
 
   return (
