@@ -7,16 +7,16 @@ import {
 import { Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthLogin';
 import { loginFailure, loginSuccess } from '../../store/actions';
-import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const { login } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
 
-  const isLoggedIn = useSelector(state => state.error);
+  const isLoggedIn = useSelector((state) => state.logged);
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => {
@@ -39,11 +39,6 @@ const LoginForm = () => {
     } catch (error) {
       dispatch(loginFailure(error));
       console.log('Login mal sucedido!', error);
-    }
-
-    if (isLoggedIn) {
-      // Redirecionar para a tela home
-      navigate("/Home")
     }
   };
 
