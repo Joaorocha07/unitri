@@ -16,7 +16,7 @@ const LoginForm = () => {
   const { login } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
 
-  const isLoggedIn = useSelector(state => state.logged);
+  const isLoggedIn = useSelector(state => state.error);
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => {
@@ -24,16 +24,18 @@ const LoginForm = () => {
   };
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    setTimeout(() => {
-      console.log(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
-
+  
     try {
-      const data = await login(values.userId, values.password, 'DV');
-      dispatch(loginSuccess(data));
-      console.log('Login bem sucedido!', data);
-      console.log(isLoggedIn)
+      const dataLogin = await login(values.userId, values.password, 'DV');
+      //dispatch(loginSuccess(dataLogin.error));
+
+      //console.log(dataLogin.error, 'retorno erro')
+
+      if (!dataLogin.error) {
+        setSubmitting(false);
+        navigate("/Home");
+        return;
+      }
     } catch (error) {
       dispatch(loginFailure(error));
       console.log('Login mal sucedido!', error);

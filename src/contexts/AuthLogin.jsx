@@ -13,13 +13,8 @@ const AuthLogin = ({ children }) => {
       formData.append('password', password);
       formData.append('database', database);
 
-      axios.post('https://acl-hmg.prod.unitri.edu.br/login', formData)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const response = await axios.post('https://acl-hmg.prod.unitri.edu.br/login', formData);
+      return response.data;
     } catch (error) {
       console.log(error);
       console.log('Erro no servidor!');
