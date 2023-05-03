@@ -16,8 +16,7 @@ const AuthLogin = ({ children }) => {
       const response = await axios.post('https://acl-hmg.prod.unitri.edu.br/login', formData);
       return response.data;
     } catch (error) {
-      console.log(error);
-      console.log('Erro no servidor!');
+      return { error: true, message: 'Erro no servidor!' };
     }
   };
 

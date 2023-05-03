@@ -1,24 +1,24 @@
 import { LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions';
 
 const initialState = {
-  logged: false,
-  userId: null,
-  password: null,
+  user: null,
+  error: null,
 };
 
+// eslint-disable-next-line default-param-last
 const authReducers = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return {
-        logged: true,
-        userId: action.payload,
-        password: action.payload,
+        ...state,
+        user: action.payload,
+        error: null,
       };
     case LOGIN_FAILURE:
       return {
-        logged: false,
-        userId: null,
-        password: null,
+        ...state,
+        user: null,
+        error: action.payload,
       };
     default:
       return state;

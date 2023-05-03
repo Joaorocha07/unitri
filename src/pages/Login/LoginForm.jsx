@@ -9,7 +9,7 @@ import { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthLogin';
-import { loginFailure, loginSuccess } from '../../store/actions';
+import { loginFailure } from '../../store/actions';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -28,40 +28,22 @@ const LoginForm = () => {
     setShowPassword(!showPassword);
   };
 
-  // const handleSubmit = async (values, { setSubmitting }) => {
-  //   setTimeout(() => {
-  //     console.log(JSON.stringify(values, null, 2));
-  //     setSubmitting(false);
-  //   }, 400);
-
-  //   try {
-  //     const data = await login(values.userId, values.password, 'DV');
-  //     console.log(data.error);
-
-
-  //     console.log('teste');
-
-  //     // Verificar se o login foi bem sucedido
-  //   //   if (data.error === true) {
-  //   //     // Exibir mensagem de erro para o usuário
-  //   //     console.log('Usuário e/ou senha inválido(s) ---');
-  //   //   } else if (data.error === false) {
-  //   //     dispatch(loginSuccess(values.userId)); // atualiza o estado global com o userId
-  //   //     console.log('Login bem sucedido!', data);
-  //   //     navigate('/Home');
-  //   //   }
-  //   } catch (error) {
-  //     dispatch(loginFailure(error));
-  //     console.log('Login mal sucedido!', error);
-  //   }
-  // };
-
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const data = await login(values.userId, values.password, 'DV');
-      console.log(data);
+      const dataLogin = await login(values.userId, values.password, 'DV');
+      // dispatch(loginSuccess(dataLogin.error));
+
+      // console.log(dataLogin.error, 'retorno erro')
+
+      if (!dataLogin.error) {
+        setSubmitting(false);
+        navigate('/Home');
+        return;
+      }
+      console.log('CodPessoa ou usario estão incorretos');
     } catch (error) {
-      console.error(error);
+      dispatch(loginFailure(error));
+      console.log('Login mal sucedido!', error);
     }
   };
 
